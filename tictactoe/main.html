@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="tictactoe.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tictactoe</title>
+</head>
+<body>
+    <nav><button id="reset">reset</button></nav>
+    <div class="loading"></div>
+    <div id="main">
+        <div id="boxtl"></div>
+    <div id="boxtm"></div>
+    <div id="boxtr"></div>
+    <div id="boxml"></div>
+    <div id="boxm"></div>
+    <div id="boxmr"></div>
+    <div id="boxbl"></div>
+    <div id="boxbm"></div>
+    <div id="boxbr"></div>
+    </div>
+    <div id="popup"></div>
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+const loading=document.querySelector(".loading");
+let waitingForResponse = false;
+        let counter = 0;
+const topl = document.getElementById("boxtl"); 
+let matrix=[[0,0,0],[0,0,0],[0,0,0]];
+topl.addEventListener("click",topleft)
+ function topleft() {
+    if(waitingForResponse || matrix[0][0] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        topl.style.backgroundImage = "url('close.png')";
+        topl.style.backgroundSize = "100% 100%";
+        matrix[0][0]=1;
+    } else {
+        topl.style.backgroundImage = "url('circle-ring.png')";
+        topl.style.backgroundSize = "100% 100%";
+        matrix[0][0]=2;
+    }
+    counter++;
+    topl.style.pointerEvents = "none";
+    checkgamestatus();
+    socket.send(JSON.stringify({index1: 0, index2: 0}));
+};
+const topm = document.getElementById("boxtm"); 
+
+topm.addEventListener("click",topmiddle);
+function topmiddle() {
+    if(waitingForResponse || matrix[0][1] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        topm.style.backgroundImage = "url('close.png')";
+        topm.style.backgroundSize = "100% 100%";
+        matrix[0][1]=1;
+    } else {
+        topm.style.backgroundImage = "url('circle-ring.png')";
+        topm.style.backgroundSize = "100% 100%";
+        matrix[0][1]=2;
+    }
+    counter++;
+    topm.style.pointerEvents = "none";
+    checkgamestatus();
+    socket.send(JSON.stringify({index1: 0, index2: 1}));
+};
+
+const topr = document.getElementById("boxtr"); 
+
+topr.addEventListener("click", topright);
+function topright() {
+    if(waitingForResponse ||matrix[0][2] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        topr.style.backgroundImage = "url('close.png')";
+        topr.style.backgroundSize = "100% 100%";
+        matrix[0][2]=1;
+    } else {
+        topr.style.backgroundImage = "url('circle-ring.png')";
+        topr.style.backgroundSize = "100% 100%";
+        matrix[0][2]=2;
+    }
+    counter++;
+    
+    topr.style.pointerEvents = "none";
+    checkgamestatus();
+    
+    socket.send(JSON.stringify({index1: 0, index2: 2}));
+};
+const middlel = document.getElementById("boxml"); 
+
+middlel.addEventListener("click", middleleft);
+function middleleft() {
+    if(waitingForResponse || matrix[1][0] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        middlel.style.backgroundImage = "url('close.png')";
+        middlel.style.backgroundSize = "100% 100%";
+        matrix[1][0]=1;
+    } else {
+        middlel.style.backgroundImage = "url('circle-ring.png')";
+        middlel.style.backgroundSize = "100% 100%";
+        matrix[1][0]=2;
+    }
+    counter++;
+    middlel.style.pointerEvents = "none";
+    checkgamestatus();
+    
+    socket.send(JSON.stringify({index1: 1, index2: 0}));
+};
+const middle = document.getElementById("boxm"); 
+
+middle.addEventListener("click",middlem);
+ function middlem() {
+    if(waitingForResponse || matrix[1][1] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        middle.style.backgroundImage = "url('close.png')";
+        middle.style.backgroundSize = "100% 100%";
+        matrix[1][1]=1;
+    } else {
+        middle.style.backgroundImage = "url('circle-ring.png')";
+        middle.style.backgroundSize = "100% 100%";
+        matrix[1][1]=2;
+    }
+    counter++;
+    middle.style.pointerEvents = "none";
+    checkgamestatus();
+    
+    socket.send(JSON.stringify({index1: 1, index2: 1}));
+};
+const middler = document.getElementById("boxmr"); 
+
+middler.addEventListener("click", middleright);
+function middleright() {
+    if(waitingForResponse || matrix[1][2] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        middler.style.backgroundImage = "url('close.png')";
+        middler.style.backgroundSize = "100% 100%";
+        matrix[1][2]=1;
+    } else {
+        middler.style.backgroundImage = "url('circle-ring.png')";
+        middler.style.backgroundSize = "100% 100%";
+        matrix[1][2]=2;
+    }
+    counter++;
+    middler.style.pointerEvents = "none";
+    checkgamestatus();
+    
+    socket.send(JSON.stringify({index1: 1, index2: 2}));
+};
+const bottoml = document.getElementById("boxbl"); 
+
+bottoml.addEventListener("click", bottomleft);
+function bottomleft() {
+    if(waitingForResponse || matrix[2][0] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        bottoml.style.backgroundImage = "url('close.png')";
+        bottoml.style.backgroundSize = "100% 100%";
+        matrix[2][0]=1;
+    } else {
+        bottoml.style.backgroundImage = "url('circle-ring.png')";
+        bottoml.style.backgroundSize = "100% 100%";
+        matrix[2][0]=2;
+    }
+    counter++;
+    bottoml.style.pointerEvents = "none";
+    checkgamestatus();
+    
+    socket.send(JSON.stringify({index1: 2, index2: 0}));
+};
+const bottomm = document.getElementById("boxbm"); 
+
+bottomm.addEventListener("click",bottommiddle); 
+function bottommiddle() {
+    if(waitingForResponse || matrix[2][1] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        bottomm.style.backgroundImage = "url('close.png')";
+        bottomm.style.backgroundSize = "100% 100%";
+        matrix[2][1]=1;
+    } else {
+        bottomm.style.backgroundImage = "url('circle-ring.png')";
+        bottomm.style.backgroundSize = "100% 100%";
+        matrix[2][1]=2;
+    }
+    counter++;
+    bottomm.style.pointerEvents = "none";
+    checkgamestatus();
+   
+    socket.send(JSON.stringify({index1: 2, index2: 1}));
+};
+const bottomr = document.getElementById("boxbr"); 
+
+bottomr.addEventListener("click",bottomright); 
+function bottomright() {
+    if(waitingForResponse || matrix[2][2] !== 0)return;
+    waitingForResponse=true;
+    if (counter % 2 === 0) {
+        bottomr.style.backgroundImage = "url('close.png')";
+        bottomr.style.backgroundSize = "100% 100%";
+        matrix[2][2]=1;
+    } else {
+        bottomr.style.backgroundImage = "url('circle-ring.png')";
+        bottomr.style.backgroundSize = "100% 100%";
+        matrix[2][2]=2;
+    }
+    counter++;
+    bottomr.style.pointerEvents = "none";
+    checkgamestatus();
+
+    socket.send(JSON.stringify({index1: 2, index2: 2}));
+};
+
+const popup=document.getElementById("popup");
+const reset=document.getElementById("reset");
+reset.addEventListener("click",function(){
+    counter = 0;
+    waitingForResponse = false;
+    matrix=[[0,0,0],[0,0,0],[0,0,0]];
+    topl.style.pointerEvents = "auto";
+    topm.style.pointerEvents = "auto";
+    topr.style.pointerEvents = "auto";
+    middlel.style.pointerEvents = "auto";
+    middle.style.pointerEvents = "auto";
+    middler.style.pointerEvents = "auto";
+    bottoml.style.pointerEvents = "auto";
+    bottomm.style.pointerEvents = "auto";
+    bottomr.style.pointerEvents = "auto";
+    
+    
+    topl.style.backgroundImage = "";
+    topm.style.backgroundImage = "";
+    topr.style.backgroundImage = "";
+    middlel.style.backgroundImage = "";
+    middle.style.backgroundImage = "";
+    middler.style.backgroundImage = "";
+    bottoml.style.backgroundImage = "";
+    bottomm.style.backgroundImage = "";
+    bottomr.style.backgroundImage = "";
+    popup.style.display = 'none';
+});
+
+function checkgamestatus(){
+    let winner = null;
+    
+    
+    for(let i = 0; i < 3; i++){
+        if(matrix[i][0] !== 0 && matrix[i][0] === matrix[i][1] && matrix[i][0] === matrix[i][2]) {
+            winner = matrix[i][0];
+        }
+        if(matrix[0][i] !== 0 && matrix[0][i] === matrix[1][i] && matrix[0][i] === matrix[2][i]) {
+            winner = matrix[0][i];
+        }
+    }
+
+    
+    if(matrix[0][0] !== 0 && matrix[0][0] === matrix[1][1] && matrix[0][0] === matrix[2][2]) {
+        winner = matrix[0][0];
+    }
+    if(matrix[0][2] !== 0 && matrix[0][2] === matrix[1][1] && matrix[0][2] === matrix[2][0]) {
+        winner = matrix[0][2];
+    }
+
+   
+    if(winner !== null) {
+        popup.textContent = (winner === 1) ? "'X' nyert" : "'O' nyert";
+        popup.style.display = 'block';
+        loading.style.display = "none";
+        confetti();
+        return;
+    }
+
+    
+    if(counter === 9) {
+        popup.textContent = "Döntetlen";
+        popup.style.display = 'block';
+        loading.style.display = "none";
+        confetti();
+    }
+}
+
+
+
+
+let clientid=undefined;
+        const socket=new WebSocket('ws://localhost:3000');
+       socket.onmessage=(event)=>{
+        
+        let data=JSON.parse(event.data);
+        if(clientid===undefined) clientid=data.id;
+        if(clientid===data.cp) {
+            loading.style.display="none";
+            waitingForResponse = false;
+        }
+        else{
+            loading.style.display="flex";
+        }
+        
+       
+        let element;
+        if (data.indexa == 0 && data.indexb == 0) {element = topl;}
+    if (data.indexa == 0 && data.indexb == 1) {element = topm;}
+    if (data.indexa == 0 && data.indexb == 2) {element = topr;}
+    if (data.indexa == 1 && data.indexb == 0) {element = middlel;}
+    if (data.indexa == 1 && data.indexb == 1) {element = middle;}
+    if (data.indexa == 1 && data.indexb == 2) {element = middler;}
+    if (data.indexa == 2 && data.indexb == 0) {element = bottoml;}
+    if (data.indexa == 2 && data.indexb == 1) {element = bottomm;}
+    if (data.indexa == 2 && data.indexb == 2) {element = bottomr;}
+    if (!element) return; 
+    counter++;
+    matrix[data.indexa][data.indexb] = (data.cp === 1) ? 2 : 1;   
+if (data.cp === 1) {
+    element.style.backgroundImage = "url('circle-ring.png')";
+    element.style.backgroundSize="100% 100%";
+    element.style.pointerEvents = "none";
+    
+} else {
+    element.style.backgroundImage = "url('close.png')";
+    element.style.backgroundSize="100% 100%";
+    element.style.pointerEvents = "none";
+      
+}
+    }
+    
+       
+    </script>
+</body>
+</html>
